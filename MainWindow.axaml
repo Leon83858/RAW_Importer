@@ -1,0 +1,190 @@
+<Window x:Class="RawImporterCS.MainWindow"
+        xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="RAW Importer"
+        SizeToContent="WidthAndHeight"
+        MinWidth="960"
+        MinHeight="720"
+        CanResize="False"
+        WindowStartupLocation="CenterScreen">
+  <DockPanel Background="{DynamicResource Brush.Bg}">
+    <Menu DockPanel.Dock="Top">
+      <MenuItem Header="_File" x:Name="MenuFile">
+        <MenuItem Header="Exit" x:Name="MenuExit" Click="ExitMenu_Click" />
+      </MenuItem>
+      <MenuItem Header="_Language" x:Name="MenuLanguage">
+        <MenuItem Header="Deutsch" x:Name="MenuGerman" Click="LangDe_Click" />
+        <MenuItem Header="English" x:Name="MenuEnglish" Click="LangEn_Click" />
+      </MenuItem>
+      <MenuItem Header="_Theme" x:Name="MenuTheme">
+        <MenuItem Header="System" x:Name="MenuSystem" Click="ThemeSystem_Click" />
+        <MenuItem Header="Light mode" x:Name="MenuLight" Click="ThemeLight_Click" />
+        <MenuItem Header="Dark mode" x:Name="MenuDark" Click="ThemeDark_Click" />
+      </MenuItem>
+      <MenuItem Header="_Credits" x:Name="MenuCredits">
+        <MenuItem Header="Instagram - @thelomphotography" x:Name="MenuInstagram" Click="MenuInstagram_Click" />
+      </MenuItem>
+    </Menu>
+
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+      <Border Classes="card" Margin="12" Padding="16">
+        <StackPanel Spacing="14">
+          <TextBlock Text="RAW Importer" Classes="section-title" />
+
+          <Grid Margin="0,4,0,0">
+            <Grid.RowDefinitions>
+              <RowDefinition Height="Auto" />
+              <RowDefinition Height="Auto" />
+              <RowDefinition Height="Auto" />
+              <RowDefinition Height="Auto" />
+              <RowDefinition Height="Auto" />
+              <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+            <Grid Grid.Row="0" Margin="0,0,0,10">
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="140" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+              </Grid.ColumnDefinitions>
+              <TextBlock x:Name="SourceLabel" Grid.Column="0" VerticalAlignment="Center" Classes="muted" Text="Source folder:" />
+              <TextBox x:Name="SourceTextBox" Grid.Column="1" Margin="12,0,12,0" VerticalAlignment="Center" />
+              <Button x:Name="BrowseSourceButton" Grid.Column="2" Width="200" Click="BrowseSource_Click" Content="Choose source folder" />
+            </Grid>
+
+            <Grid Grid.Row="1" Margin="0,0,0,10">
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="140" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+              </Grid.ColumnDefinitions>
+              <TextBlock x:Name="TargetLabel" Grid.Column="0" VerticalAlignment="Center" Classes="muted" Text="Target folder:" />
+              <TextBox x:Name="TargetTextBox" Grid.Column="1" Margin="12,0,12,0" VerticalAlignment="Center" />
+              <Button x:Name="BrowseTargetButton" Grid.Column="2" Width="200" Click="BrowseTarget_Click" Content="Choose target folder" />
+            </Grid>
+
+            <Border Grid.Row="2" Margin="0,0,0,12" Padding="12" Classes="card">
+              <StackPanel>
+                <TextBlock x:Name="FiletypesHeader" Text="Filetypes:" Classes="muted" Margin="0,0,0,8" />
+                <Grid>
+                  <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                  </Grid.ColumnDefinitions>
+                  <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                  </Grid.RowDefinitions>
+
+                  <CheckBox Grid.Row="0" Grid.Column="0" x:Name="CheckRaw" Content=".ARW" IsChecked="True" Margin="0,2" />
+                  <CheckBox Grid.Row="1" Grid.Column="0" x:Name="CheckCr2" Content=".CR2" Margin="0,2" />
+                  <CheckBox Grid.Row="2" Grid.Column="0" x:Name="CheckRaf" Content=".RAF" Margin="0,2" />
+                  <CheckBox Grid.Row="3" Grid.Column="0" x:Name="CheckDng" Content=".DNG" Margin="0,2" />
+
+                  <CheckBox Grid.Row="0" Grid.Column="1" x:Name="CheckNef" Content=".NEF" Margin="0,2" />
+                  <CheckBox Grid.Row="1" Grid.Column="1" x:Name="CheckCr3" Content=".CR3" Margin="0,2" />
+                  <CheckBox Grid.Row="2" Grid.Column="1" x:Name="CheckOrf" Content=".ORF" Margin="0,2" />
+                  <CheckBox Grid.Row="3" Grid.Column="1" x:Name="CheckRw2" Content=".RW2" Margin="0,2" />
+
+                  <CheckBox Grid.Row="0" Grid.Column="2" x:Name="CheckJpg" Content=".JPG" Margin="0,2" />
+                  <CheckBox Grid.Row="1" Grid.Column="2" x:Name="CheckJpeg" Content=".JPEG" Margin="0,2" />
+                  <CheckBox Grid.Row="2" Grid.Column="2" x:Name="CheckPng" Content=".PNG" Margin="0,2" />
+                  <CheckBox Grid.Row="3" Grid.Column="2" x:Name="CheckTiff" Content=".TIFF" Margin="0,2" />
+
+                  <CheckBox Grid.Row="0" Grid.Column="3" x:Name="CheckHeic" Content=".HEIC" Margin="0,2" />
+                  <CheckBox Grid.Row="1" Grid.Column="3" x:Name="CheckAllFiles" Content="All files" Margin="0,2" />
+                </Grid>
+              </StackPanel>
+            </Border>
+
+            <Grid Grid.Row="3" Margin="0,0,0,12">
+              <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+              </Grid.RowDefinitions>
+              <TextBlock x:Name="AdditionalExtensionsLabel" Grid.Row="0" Classes="muted" Text="Additional extensions (confirm with Enter):" Margin="0,0,0,5" />
+              <TextBox x:Name="ManualExtTextBox" Grid.Row="1" VerticalAlignment="Center" Height="34" KeyDown="ManualExtTextBox_KeyDown" />
+
+              <ScrollViewer Grid.Row="2" Margin="0,8,0,0" VerticalScrollBarVisibility="Auto" MaxHeight="80" Background="{DynamicResource Brush.Control}" BorderThickness="1" BorderBrush="{DynamicResource Brush.Border}">
+                <WrapPanel x:Name="ExtensionsPanel" Orientation="Horizontal" Margin="5" Background="{DynamicResource Brush.Control}" />
+              </ScrollViewer>
+            </Grid>
+
+            <Grid Grid.Row="4" Margin="0,0,0,12">
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="280" />
+              </Grid.ColumnDefinitions>
+
+              <StackPanel Grid.Column="0" Spacing="6">
+                <CheckBox x:Name="CheckSkipDuplicates" Content="Detect duplicates via EXIF" IsChecked="True" />
+                <CheckBox x:Name="CheckPreserveSubfolders" Content="Preserve subfolders" IsChecked="True" />
+                <CheckBox x:Name="CheckMultithread" Content="Multithreaded import (experimental)" />
+              </StackPanel>
+
+              <StackPanel Grid.Column="1" Margin="20,0,0,0">
+                <TextBlock x:Name="FolderStructureLabel" Text="Folder structure:" Classes="muted" Margin="0,0,0,5" />
+                <ComboBox x:Name="FolderStructureCombo" SelectedIndex="0">
+                  <ComboBoxItem>Year/Month/Day</ComboBoxItem>
+                  <ComboBoxItem>Year/Month</ComboBoxItem>
+                  <ComboBoxItem>Year</ComboBoxItem>
+                  <ComboBoxItem>Day-Month-Year</ComboBoxItem>
+                  <ComboBoxItem>Flat</ComboBoxItem>
+                </ComboBox>
+                <CheckBox x:Name="CheckCreateSubfoldersPerFileType"
+                          Margin="0,8,0,0"
+                          Content="Create subfolders per file type"
+                          IsChecked="{Binding CreateSubfoldersPerFileType, Mode=TwoWay}" />
+              </StackPanel>
+            </Grid>
+
+            <Grid Grid.Row="5" Margin="0,0,0,6">
+              <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+              </Grid.RowDefinitions>
+
+              <Grid Grid.Row="0" HorizontalAlignment="Stretch" Margin="0,0,0,5">
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="3*" />
+                  <ColumnDefinition Width="2" />
+                  <ColumnDefinition Width="*" />
+                  <ColumnDefinition Width="2" />
+                  <ColumnDefinition Width="*" />
+                  <ColumnDefinition Width="2" />
+                  <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <TextBlock x:Name="StatusLeftText" Grid.Column="0" Text="Ready." HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center" Classes="muted" />
+                <Border Grid.Column="1" Background="{DynamicResource Brush.Border}" HorizontalAlignment="Stretch" />
+                <TextBlock x:Name="StatusPercent" Grid.Column="2" Text="0%" HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center" Classes="muted" />
+                <Border Grid.Column="3" Background="{DynamicResource Brush.Border}" HorizontalAlignment="Stretch" />
+                <TextBlock x:Name="StatusCount" Grid.Column="4" Text="0 / 0" HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center" Classes="muted" />
+                <Border Grid.Column="5" Background="{DynamicResource Brush.Border}" HorizontalAlignment="Stretch" />
+                <TextBlock x:Name="StatusSpeed" Grid.Column="6" Text="0 MB/s" HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center" Classes="muted" />
+              </Grid>
+
+              <ProgressBar Grid.Row="1" x:Name="ProgressBar" Height="4" Margin="0,0,0,15" Minimum="0" Maximum="100" VerticalAlignment="Top" />
+
+              <Grid Grid.Row="2">
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="1*" />
+                  <ColumnDefinition Width="12" />
+                  <ColumnDefinition Width="1*" />
+                </Grid.ColumnDefinitions>
+                <Button Grid.Column="0" Content="Scan" x:Name="ScanButton" Click="ScanButton_Click" Classes="primary" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="16,10" />
+                <Button Grid.Column="2" Content="Start import" x:Name="StartButton" Click="StartButton_Click" Classes="primary" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="16,10" />
+              </Grid>
+            </Grid>
+          </Grid>
+        </StackPanel>
+      </Border>
+    </ScrollViewer>
+  </DockPanel>
+</Window>

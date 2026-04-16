@@ -1,0 +1,206 @@
+{
+  "Profiles": [
+    {
+      "Name": "Windows portable ZIP",
+      "BuildWindowsPortable": false,
+      "BuildMacApp": false,
+      "BuildMacPkg": true,
+      "BuildLinuxPortable": false,
+      "OutputNameOverride": null,
+      "Dotnet": {
+        "WindowsRid": "win-x64",
+        "MacRid": "osx-arm64",
+        "LinuxRid": "linux-x64",
+        "SelfContained": true,
+        "SingleFile": false,
+        "CreateLinuxZip": false,
+        "CreateLinuxRunScript": true
+      },
+      "Java": {
+        "SkipTests": true,
+        "MavenArguments": null,
+        "GradleArguments": null,
+        "IncludeWindowsRunBat": true,
+        "IncludeLinuxRunSh": true,
+        "CreateWindowsExeWrapper": false,
+        "ExeWrapper": {
+          "ToolPath": null,
+          "ArgumentsTemplate": null
+        },
+        "BundledRuntimePath": null
+      },
+      "MacApp": {
+        "DisplayNameOverride": "Raw Importer",
+        "BundleIdentifierOverride": "com.projectbuilder.rawimportercs",
+        "IconPath": "/Users/leonpilger/Documents/Apps/RAW_Importer/C#/C# Mac/applet.icns",
+        "AllowPngIconConversion": true
+      },
+      "Signing": {
+        "SignApp": false,
+        "SignPkg": false,
+        "Notarize": false,
+        "Staple": false,
+        "Verify": true,
+        "CodeSigningIdentity": null,
+        "InstallerSigningIdentity": null,
+        "NotaryCredentialMode": 0,
+        "NotaryKeychainProfile": null,
+        "NotaryApiKeyId": null,
+        "NotaryApiIssuerId": null,
+        "NotaryApiPrivateKeyPath": null
+      }
+    },
+    {
+      "Name": "macOS .app",
+      "BuildWindowsPortable": false,
+      "BuildMacApp": true,
+      "BuildMacPkg": false,
+      "BuildLinuxPortable": false,
+      "OutputNameOverride": null,
+      "Dotnet": {
+        "WindowsRid": "win-x64",
+        "MacRid": "osx-arm64",
+        "LinuxRid": "linux-x64",
+        "SelfContained": true,
+        "SingleFile": false,
+        "CreateLinuxZip": false,
+        "CreateLinuxRunScript": true
+      },
+      "Java": {
+        "SkipTests": true,
+        "MavenArguments": null,
+        "GradleArguments": null,
+        "IncludeWindowsRunBat": true,
+        "IncludeLinuxRunSh": true,
+        "CreateWindowsExeWrapper": false,
+        "ExeWrapper": {
+          "ToolPath": null,
+          "ArgumentsTemplate": null
+        },
+        "BundledRuntimePath": null
+      },
+      "MacApp": {
+        "DisplayNameOverride": "RawImporterCS",
+        "BundleIdentifierOverride": "com.projectbuilder.rawimportercs",
+        "IconPath": "/Users/leonpilger/Documents/Apps/RAW_Importer/C#/C# Mac/applet.icns",
+        "AllowPngIconConversion": false
+      },
+      "Signing": {
+        "SignApp": false,
+        "SignPkg": false,
+        "Notarize": false,
+        "Staple": false,
+        "Verify": true,
+        "CodeSigningIdentity": null,
+        "InstallerSigningIdentity": null,
+        "NotaryCredentialMode": 0,
+        "NotaryKeychainProfile": null,
+        "NotaryApiKeyId": null,
+        "NotaryApiIssuerId": null,
+        "NotaryApiPrivateKeyPath": null
+      }
+    },
+    {
+      "Name": "macOS .pkg",
+      "BuildWindowsPortable": false,
+      "BuildMacApp": false,
+      "BuildMacPkg": true,
+      "BuildLinuxPortable": false,
+      "OutputNameOverride": null,
+      "Dotnet": {
+        "WindowsRid": "win-x64",
+        "MacRid": "osx-arm64",
+        "LinuxRid": "linux-x64",
+        "SelfContained": true,
+        "SingleFile": false,
+        "CreateLinuxZip": false,
+        "CreateLinuxRunScript": true
+      },
+      "Java": {
+        "SkipTests": true,
+        "MavenArguments": null,
+        "GradleArguments": null,
+        "IncludeWindowsRunBat": true,
+        "IncludeLinuxRunSh": true,
+        "CreateWindowsExeWrapper": false,
+        "ExeWrapper": {
+          "ToolPath": null,
+          "ArgumentsTemplate": null
+        },
+        "BundledRuntimePath": null
+      },
+      "MacApp": {
+        "DisplayNameOverride": "Raw Importer",
+        "BundleIdentifierOverride": "com.projectbuilder.rawimportercs",
+        "IconPath": "/Users/leonpilger/Documents/Apps/RAW_Importer/C#/C# Mac/applet.icns",
+        "AllowPngIconConversion": false
+      },
+      "Signing": {
+        "SignApp": false,
+        "SignPkg": false,
+        "Notarize": false,
+        "Staple": false,
+        "Verify": true,
+        "CodeSigningIdentity": null,
+        "InstallerSigningIdentity": null,
+        "NotaryCredentialMode": 0,
+        "NotaryKeychainProfile": null,
+        "NotaryApiKeyId": null,
+        "NotaryApiIssuerId": null,
+        "NotaryApiPrivateKeyPath": null
+      }
+    },
+    {
+      "Name": "Linux portable tar.gz",
+      "BuildWindowsPortable": false,
+      "BuildMacApp": false,
+      "BuildMacPkg": false,
+      "BuildLinuxPortable": true,
+      "OutputNameOverride": null,
+      "Dotnet": {
+        "WindowsRid": "win-x64",
+        "MacRid": "osx-arm64",
+        "LinuxRid": "linux-x64",
+        "SelfContained": true,
+        "SingleFile": false,
+        "CreateLinuxZip": false,
+        "CreateLinuxRunScript": true
+      },
+      "Java": {
+        "SkipTests": true,
+        "MavenArguments": null,
+        "GradleArguments": null,
+        "IncludeWindowsRunBat": true,
+        "IncludeLinuxRunSh": true,
+        "CreateWindowsExeWrapper": false,
+        "ExeWrapper": {
+          "ToolPath": null,
+          "ArgumentsTemplate": null
+        },
+        "BundledRuntimePath": null
+      },
+      "MacApp": {
+        "DisplayNameOverride": "RawImporterCS",
+        "BundleIdentifierOverride": "com.projectbuilder.rawimportercs",
+        "IconPath": "/Users/leonpilger/Documents/Apps/RAW_Importer/C#/C# Mac/applet.icns",
+        "AllowPngIconConversion": false
+      },
+      "Signing": {
+        "SignApp": false,
+        "SignPkg": false,
+        "Notarize": false,
+        "Staple": false,
+        "Verify": true,
+        "CodeSigningIdentity": null,
+        "InstallerSigningIdentity": null,
+        "NotaryCredentialMode": 0,
+        "NotaryKeychainProfile": null,
+        "NotaryApiKeyId": null,
+        "NotaryApiIssuerId": null,
+        "NotaryApiPrivateKeyPath": null
+      }
+    }
+  ],
+  "LastUsedProfileName": "Linux portable tar.gz",
+  "LastUsedTargetName": null
+}

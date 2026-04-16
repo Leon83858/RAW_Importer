@@ -1,0 +1,29 @@
+<!-- Root resource dictionary containing shared color definitions -->
+<ResourceDictionary xmlns="https://github.com/avaloniaui" 
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"> <!-- XML namespace for XAML definitions -->
+  <!-- Dark (Navy / Blue Glass) -->
+  <Color x:Key="ColorBgDark">#0B1220</Color> <!-- Background color for the dark theme -->
+  <Color x:Key="ColorSurfaceDark">#111F36</Color> <!-- Surface panels color for the dark theme -->
+  <Color x:Key="ColorControlDark">#0E1A2D</Color> <!-- Control background color for the dark theme -->
+  <Color x:Key="ColorBorderDark">#20324F</Color> <!-- Border color for the dark theme -->
+  <Color x:Key="ColorTextDark">#E7EEF8</Color> <!-- Primary text color for the dark theme -->
+  <Color x:Key="ColorTextMutedDark">#A9B8D0</Color> <!-- Muted text color for the dark theme -->
+  <Color x:Key="ColorAccentDark">#2EA8FF</Color> <!-- Accent highlight color for the dark theme -->
+  <Color x:Key="ColorDangerDark">#FF5D6C</Color> <!-- Error/danger color for the dark theme -->
+  <Color x:Key="ColorSuccessDark">#2AD39A</Color> <!-- Success/positive color for the dark theme -->
+  <Color x:Key="ColorWarningDark">#F7B955</Color> <!-- Warning color for the dark theme -->
+  <SolidColorBrush x:Key="BrushShadowDark" Color="#73000000" /> <!-- Semi-transparent shadow brush for dark theme -->
+
+  <!-- Light (Cool Gray / Blue Accent) -->
+  <Color x:Key="ColorBgLight">#F5F8FE</Color> <!-- Background color for the light theme -->
+  <Color x:Key="ColorSurfaceLight">#FFFFFF</Color> <!-- Surface panels color for the light theme -->
+  <Color x:Key="ColorControlLight">#F1F6FF</Color> <!-- Control background color for the light theme -->
+  <Color x:Key="ColorBorderLight">#D3DCEF</Color> <!-- Border color for the light theme -->
+  <Color x:Key="ColorTextLight">#0E1B2E</Color> <!-- Primary text color for the light theme -->
+  <Color x:Key="ColorTextMutedLight">#4A5E7B</Color> <!-- Muted text color for the light theme -->
+  <Color x:Key="ColorAccentLight">#167DFF</Color> <!-- Accent highlight color for the light theme -->
+  <Color x:Key="ColorDangerLight">#E5394A</Color> <!-- Error/danger color for the light theme -->
+  <Color x:Key="ColorSuccessLight">#16B985</Color> <!-- Success/positive color for the light theme -->
+  <Color x:Key="ColorWarningLight">#D98900</Color> <!-- Warning color for the light theme -->
+  <SolidColorBrush x:Key="BrushShadowLight" Color="#1F0F1E3C" /> <!-- Light theme shadow brush -->
+</ResourceDictionary> <!-- End of resource dictionary -->
