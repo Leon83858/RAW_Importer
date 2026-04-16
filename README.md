@@ -2,6 +2,23 @@
 
 Desktop app for importing and organizing RAW photo files.
 
+## Distribution
+
+This project is delivered as a ready-to-run executable.
+
+- End users should download the platform-specific archive from GitHub Releases.
+- No local .NET SDK installation is required for running released builds.
+
+## Download And Run
+
+1. Open the Releases page of this repository.
+2. Download the archive for your platform.
+3. Extract the ZIP file.
+4. Start the executable:
+  - macOS: `RawImporterCS`
+  - Windows: `RawImporterCS.exe`
+  - Linux: `RawImporterCS`
+
 ## Tech Stack
 
 - .NET 10
@@ -14,11 +31,11 @@ Desktop app for importing and organizing RAW photo files.
 - `RawImporterCS.Tests/RawImporterCS.Tests.csproj`: Test project
 - `Properties/PublishProfiles/`: Manual publish profiles for self-contained exports
 
-## Prerequisites
+## Development Prerequisites
 
 - .NET SDK 10.x
 
-## Local Development
+## Local Development (Optional)
 
 Restore dependencies:
 
@@ -44,7 +61,7 @@ Run app:
 dotnet run --project RawImporterCS.csproj
 ```
 
-## Release Builds (Manual)
+## Packaging Details
 
 The project uses self-contained single-file publishing with Avalonia native libraries extracted at runtime.
 
