@@ -79,29 +79,5 @@ dotnet publish RawImporterCS.csproj \
   -p:DebugSymbols=false
 ```
 
-## GitHub Actions Release Workflow
-
-A release workflow is included at `.github/workflows/release.yml`.
-
-It will:
-
-- run tests
-- build self-contained release artifacts for:
-  - `linux-x64`
-  - `osx-arm64`
-  - `osx-x64`
-  - `win-arm64`
-  - `win-x64`
-- package each output as a `.zip`
-- publish GitHub Release assets automatically
-
-### Trigger a Release
-
-Create and push a version tag:
-
-```bash
-git tag v0.1.0
-git push origin v0.1.0
-```
-
-This creates a GitHub Release for that tag and uploads all platform archives.
+<img width="1072" height="860" alt="Screenshot 2026-04-16 at 17 50 56" src="https://github.com/user-attachments/assets/6e93ba56-2774-44c4-97b0-15820f833d09" />
+<img width="1072" height="860" alt="Screenshot 2026-04-16 at 17 51 08" src="https://github.com/user-attachments/assets/0d082d95-a3e6-4689-87f7-a470e4f1b68c" />
