@@ -1,0 +1,117 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "v*"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "10.0.x"
+
+      - name: Restore
+        run: dotnet restore C#.sln
+
+      - name: Build
+        run: dotnet build C#.sln -c Release --no-restore
+
+      - name: Test
+        run: dotnet test C#.sln -c Release --no-build
+
+  build-artifacts:
+    name: Build ${{ matrix.rid }}
+    needs: test
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - rid: linux-x64
+            runner: ubuntu-latest
+          - rid: osx-arm64
+            runner: macos-latest
+          - rid: osx-x64
+            runner: macos-latest
+          - rid: win-arm64
+            runner: windows-latest
+          - rid: win-x64
+            runner: windows-latest
+    runs-on: ${{ matrix.runner }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "10.0.x"
+
+      - name: Publish self-contained app
+        run: >-
+          dotnet publish RawImporterCS.csproj
+          -c Release
+          -r ${{ matrix.rid }}
+          --self-contained true
+          -p:PublishSingleFile=true
+          -p:IncludeNativeLibrariesForSelfExtract=true
+          -p:IncludeAllContentForSelfExtract=true
+          -p:DebugType=none
+          -p:DebugSymbols=false
+          -o out/${{ matrix.rid }}
+
+      - name: Create archive
+        shell: bash
+        run: |
+          python - <<'PY'
+          import os
+          import pathlib
+          import shutil
+
+          rid = os.environ["RID"]
+          tag = os.environ["TAG"]
+          source = pathlib.Path("out") / rid
+          target = pathlib.Path("dist") / f"RawImporterCS-{tag}-{rid}"
+          target.parent.mkdir(parents=True, exist_ok=True)
+          archive = shutil.make_archive(str(target), "zip", root_dir=str(source))
+          print(f"Created archive: {archive}")
+          PY
+        env:
+          RID: ${{ matrix.rid }}
+          TAG: ${{ github.ref_name }}
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-${{ matrix.rid }}
+          path: dist/*.zip
+          if-no-files-found: error
+
+  publish-release:
+    name: Publish GitHub Release
+    needs: build-artifacts
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: dist
+          merge-multiple: true
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          generate_release_notes: true
+          files: dist/*.zip
