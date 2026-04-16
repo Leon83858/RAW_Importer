@@ -15,9 +15,9 @@ This project is delivered as a ready-to-run executable.
 2. Download the archive for your platform.
 3. Extract the ZIP file.
 4. Start the executable:
-  - macOS: `RawImporterCS`
-  - Windows: `RawImporterCS.exe`
-  - Linux: `RawImporterCS`
+  - macOS: `RawImporter.app`
+  - Windows: `RawImporter.exe`
+  - Linux: `RawImporter`
 
 ## Tech Stack
 
