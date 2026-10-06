@@ -31,36 +31,6 @@ This project is delivered as a ready-to-run executable.
 - `RawImporterCS.Tests/RawImporterCS.Tests.csproj`: Test project
 - `Properties/PublishProfiles/`: Manual publish profiles for self-contained exports
 
-## Development Prerequisites
-
-- .NET SDK 10.x
-
-## Local Development (Optional)
-
-Restore dependencies:
-
-```bash
-dotnet restore C#.sln
-```
-
-Build solution:
-
-```bash
-dotnet build C#.sln -c Debug
-```
-
-Run tests:
-
-```bash
-dotnet test C#.sln -c Debug
-```
-
-Run app:
-
-```bash
-dotnet run --project RawImporterCS.csproj
-```
-
 ## Packaging Details
 
 The project uses self-contained single-file publishing with Avalonia native libraries extracted at runtime.
