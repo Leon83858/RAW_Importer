@@ -12,10 +12,11 @@ A desktop app for copying camera RAW and image files into organised, date-based 
 
 ```sh
 brew tap Leon83858/homebrew-raw-importer
+brew trust --cask Leon83858/homebrew-raw-importer/raw-importer
 brew install --cask raw-importer
 ```
 
-The app is currently unsigned and not notarized. If Gatekeeper blocks the first launch, open Finder, Control-click **RAW Importer**, then choose **Open**.
+The trust command approves only this cask. The app is currently unsigned and not notarized. If Gatekeeper blocks the first launch, open Finder, Control-click **RAW Importer**, then choose **Open**.
 
 ### Windows 10/11 (x64)
 
