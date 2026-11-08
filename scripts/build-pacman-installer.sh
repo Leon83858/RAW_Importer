@@ -53,7 +53,7 @@ PKGBUILD
 docker run --rm --platform linux/amd64 \
   -e HOST_UID="$HOST_UID" -e HOST_GID="$HOST_GID" -v "$BUILD:/work" \
   archlinux:base-devel \
-  bash -lc 'set -euo pipefail; pacman -Syu --noconfirm --needed base-devel zstd; groupadd --gid "$HOST_GID" builder || true; useradd --create-home --uid "$HOST_UID" --gid "$HOST_GID" builder; su builder -s /bin/bash -c "cd /work && makepkg --nodeps --noconfirm --cleanbuild --force"'
+  bash -lc 'set -euo pipefail; pacman -Syu --noconfirm --needed base-devel zstd; groupadd --gid "$HOST_GID" builder || true; useradd --create-home --uid "$HOST_UID" --gid "$HOST_GID" builder; su builder -s /bin/bash -c "cd /work && PACKAGER=\"The_Lom <The_Lom@users.noreply.github.com>\" makepkg --nodeps --noconfirm --cleanbuild --force"'
 
 mkdir -p "$ROOT/installer"
 OUTPUT="$ROOT/installer/raw-importer-${VERSION}-1-x86_64.pkg.tar.zst"
