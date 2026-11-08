@@ -24,6 +24,8 @@ done
 LICENSE_FILE="$ROOT/LICENSE"
 [[ -f "$LICENSE_FILE" ]] || LICENSE_FILE="$ROOT/legacy/csharp/LICENSE"
 install -m 644 "$LICENSE_FILE" "$BUILD/LICENSE"
+HOST_UID="$(id -u)"
+HOST_GID="$(id -g)"
 
 cat > "$BUILD/PKGBUILD" <<PKGBUILD
 pkgname=raw-importer
@@ -48,8 +50,10 @@ package() {
 }
 PKGBUILD
 
-docker run --rm --platform linux/amd64 -v "$BUILD:/work" archlinux:base-devel \
-  bash -lc 'set -euo pipefail; pacman -Syu --noconfirm --needed base-devel zstd; useradd -m builder; chown -R builder:builder /work; su builder -s /bin/bash -c "cd /work && makepkg --noconfirm --cleanbuild --force"'
+docker run --rm --platform linux/amd64 \
+  -e HOST_UID="$HOST_UID" -e HOST_GID="$HOST_GID" -v "$BUILD:/work" \
+  archlinux:base-devel \
+  bash -lc 'set -euo pipefail; pacman -Syu --noconfirm --needed base-devel zstd; groupadd --gid "$HOST_GID" builder || true; useradd --create-home --uid "$HOST_UID" --gid "$HOST_GID" builder; su builder -s /bin/bash -c "cd /work && makepkg --nodeps --noconfirm --cleanbuild --force"'
 
 mkdir -p "$ROOT/installer"
 OUTPUT="$ROOT/installer/raw-importer-${VERSION}-1-x86_64.pkg.tar.zst"
