@@ -19,6 +19,17 @@ This project is delivered as a ready-to-run executable.
   - Windows: `RawImporter.exe`
   - Linux: `RawImporter`
 
+## Install with Homebrew
+
+On macOS, install the app with:
+
+```bash
+brew tap Leon83858/tap
+brew install --cask raw-importer
+```
+
+The Homebrew Cask supports both Apple Silicon and Intel Macs.
+
 ## Tech Stack
 
 - .NET 10
