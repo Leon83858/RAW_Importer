@@ -1,5 +1,9 @@
 # RAW Importer
 
+<p align="center">
+	<img src="src-tauri/icons/icon.png" width="120" alt="RAW Importer app icon">
+</p>
+
 A desktop application for importing camera RAW and image files into a date-based folder structure. Source files are copied, not modified.
 
 ## Features
