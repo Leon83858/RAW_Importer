@@ -1,66 +1,39 @@
-# RAW Importer (C# / Avalonia)
+# RAW Importer
 
-Desktop app for importing and organizing RAW photo files.
+A desktop application for importing camera RAW and image files into a date-based folder structure. Source files are copied, not modified.
 
-## Distribution
+## Features
 
-This project is delivered as a ready-to-run executable.
+- Organise imports by year, month and day, with optional source subfolders or file-type folders.
+- Read capture dates from EXIF metadata, with a filesystem-date option.
+- Select common RAW and image formats, or add custom file extensions.
+- Handle name conflicts by skipping or renaming files; optionally skip verified identical content.
+- Keep local import history and recoverable session state.
+- Use English, German, French, Dutch or Belgian Dutch, with light, dark or system appearance.
+- Check for stable updates from GitHub manually or opt in to a startup check. Updates are never downloaded or installed automatically.
 
-- End users should download the platform-specific archive from GitHub Releases.
-- No local .NET SDK installation is required for running released builds.
+Supported built-in extensions include ARW, CR2, CR3, NEF, RAF, ORF, RW2, DNG, JPG, JPEG, PNG, TIFF/TIF and HEIC/HEIF. Additional extensions can be configured in the app.
 
-## Download And Run
+## Build
 
-1. Open the Releases page of this repository.
-2. Download the archive for your platform.
-3. Extract the ZIP file.
-4. Start the executable:
-  - macOS: `RawImporter.app`
-  - Windows: `RawImporter.exe`
-  - Linux: `RawImporter`
+Requirements: Rust 1.90 or later, Node.js 22.12 or later, and the platform's Tauri/WebView dependencies.
 
-## Install with Homebrew
-
-On macOS, install the app with:
-
-```bash
-brew tap Leon83858/tap
-brew trust --cask leon83858/tap/raw-importer
-brew install --cask raw-importer
+```sh
+npm ci
+npm run types:generate
+npm run tauri dev
 ```
 
-The Homebrew Cask supports both Apple Silicon and Intel Macs. macOS may show a
-security prompt on first launch because the app is not notarized.
+TypeScript bindings in `src/types/generated` are generated from the Rust data transfer types by `npm run types:generate`.
 
-## Tech Stack
+Platform installer scripts:
 
-- .NET 10
-- Avalonia UI 11.1.3
-- xUnit tests in `RawImporterCS.Tests`
+- macOS Apple Silicon: `scripts/build-mac-installer.sh`
+- Windows x64 from macOS: run `scripts/build-windows-installer.sh --setup` once, then `scripts/build-windows-installer.sh`
+- Linux x86_64: run the **Linux installer** workflow from GitHub Actions; the ZIP is published as a workflow artifact. Linux builds require WebKitGTK 4.1 and GTK 3.
 
-## Project Structure
+The macOS DMG and Windows setup executable are currently unsigned; macOS is not notarized. Windows cross-compilation is experimental. No public release is created by these build workflows.
 
-- `RawImporterCS.csproj`: Main desktop app
-- `RawImporterCS.Tests/RawImporterCS.Tests.csproj`: Test project
-- `Properties/PublishProfiles/`: Manual publish profiles for self-contained exports
+## License
 
-## Packaging Details
-
-The project uses self-contained single-file publishing with Avalonia native libraries extracted at runtime.
-
-Example (macOS ARM64):
-
-```bash
-dotnet publish RawImporterCS.csproj \
-  -c Release \
-  -r osx-arm64 \
-  --self-contained true \
-  -p:PublishSingleFile=true \
-  -p:IncludeNativeLibrariesForSelfExtract=true \
-  -p:IncludeAllContentForSelfExtract=true \
-  -p:DebugType=none \
-  -p:DebugSymbols=false
-```
-
-<img width="1072" height="860" alt="Screenshot 2026-04-16 at 17 50 56" src="https://github.com/user-attachments/assets/6e93ba56-2774-44c4-97b0-15820f833d09" />
-<img width="1072" height="860" alt="Screenshot 2026-04-16 at 17 51 08" src="https://github.com/user-attachments/assets/0d082d95-a3e6-4689-87f7-a470e4f1b68c" />
+RAW Importer is distributed under the GNU General Public License v3.0 only. See [LICENSE](LICENSE).

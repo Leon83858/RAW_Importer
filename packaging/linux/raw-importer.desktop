@@ -1,0 +1,13 @@
+[Desktop Entry]
+Type=Application
+Name=RAW Importer
+GenericName=Photo Importer
+GenericName[de]=Foto-Import
+Comment=Import RAW and image files from memory cards into a date-based folder structure
+Comment[de]=RAW- und Bilddateien von Speicherkarten in eine Datums-Ordnerstruktur importieren
+Exec=@EXEC@
+Icon=raw-importer
+Terminal=false
+Categories=Graphics;Photography;
+Keywords=raw;photo;import;camera;sd;
+StartupNotify=true

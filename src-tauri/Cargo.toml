@@ -1,0 +1,17 @@
+[package]
+name = "raw-importer-app"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+rust-version.workspace = true
+
+[build-dependencies]
+tauri-build = { version = "~2.7.3", features = [] }
+
+[dependencies]
+raw-importer-core = { path = "../crates/core" }
+reqwest = { version = "0.13.5", default-features = false, features = ["json", "rustls"] }
+serde = { workspace = true }
+tauri = { version = "~2.12.4", features = [] }
+tauri-plugin-dialog = "~2.8.4"
+tauri-plugin-opener = "~2.7.2"

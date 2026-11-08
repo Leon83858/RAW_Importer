@@ -1,18 +1,22 @@
-bin/
-obj/
-
-# Rider / VS / VS Code
-.idea/
-.vs/
-.vscode/
-
-# User-specific files
-*.user
-*.suo
-
-# OS files
+# Rust
+/target/
+# Node / frontend
+node_modules/
+/dist/
+/src/types/generated/
+# OS / editors
 .DS_Store
-
-# Test results
-TestResults/
-*.trx
+.idea/
+.vscode/
+*.swp
+# Test output
+*.profraw
+# Office lock files
+~$*
+# Local photo fixtures supplied by the owner (large, never committed)
+/test files/
+# Local check logs
+/logs/
+/installer/
+/dist-installer/
+/target-linux/
