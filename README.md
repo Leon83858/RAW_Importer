@@ -20,7 +20,7 @@ The trust command approves only this cask. The app is currently unsigned and not
 
 ### Windows 10/11 (x64)
 
-Download and run the [Windows installer](https://github.com/Leon83858/RAW_Importer/releases/latest/download/RAW%20Importer_3.0.0_windows_x64-setup.exe). It installs for the current user without administrator access. If SmartScreen appears, choose **More info** and **Run anyway** only if you trust the download.
+Download and run the [Windows installer](https://github.com/Leon83858/RAW_Importer/releases/latest/download/RAW.Importer_3.0.0_windows_x64-setup.exe). It installs for the current user without administrator access. If SmartScreen appears, choose **More info** and **Run anyway** only if you trust the download.
 
 ### Debian/Ubuntu (x86_64)
 
