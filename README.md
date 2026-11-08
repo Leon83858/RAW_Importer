@@ -12,7 +12,7 @@ A desktop app for copying camera RAW and image files into organised, date-based 
 
 ```sh
 brew tap Leon83858/homebrew-raw-importer
-brew trust --cask Leon83858/homebrew-raw-importer/raw-importer
+brew trust --cask leon83858/raw-importer/raw-importer
 brew install --cask raw-importer
 ```
 
