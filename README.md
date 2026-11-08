@@ -25,10 +25,12 @@ On macOS, install the app with:
 
 ```bash
 brew tap Leon83858/tap
+brew trust --cask leon83858/tap/raw-importer
 brew install --cask raw-importer
 ```
 
-The Homebrew Cask supports both Apple Silicon and Intel Macs.
+The Homebrew Cask supports both Apple Silicon and Intel Macs. macOS may show a
+security prompt on first launch because the app is not notarized.
 
 ## Tech Stack
 
