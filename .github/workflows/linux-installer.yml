@@ -35,12 +35,22 @@ jobs:
       - name: Build Linux installer
         run: scripts/build-linux-installer.sh --arch x86_64
 
+      - name: Build Debian package
+        run: scripts/build-deb-installer.sh
+
+      - name: Build Arch package
+        run: scripts/build-pacman-installer.sh
+
       - name: Upload installer artifact
         uses: actions/upload-artifact@v4
         with:
-          name: RAW-Importer-linux-x86_64
+          name: RAW-Importer-linux-x86_64-packages
           path: |
             installer/RAW-Importer_*_linux_x86_64.zip
             installer/RAW-Importer_*_linux_x86_64.zip.sha256
+            installer/raw-importer_*_amd64.deb
+            installer/raw-importer_*_amd64.deb.sha256
+            installer/raw-importer-*-x86_64.pkg.tar.zst
+            installer/raw-importer-*-x86_64.pkg.tar.zst.sha256
           if-no-files-found: error
           retention-days: 30
