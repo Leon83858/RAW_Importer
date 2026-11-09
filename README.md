@@ -22,7 +22,15 @@ brew install --cask raw-importer
 
 `brew trust` approves the Homebrew cask definition; it does not approve the app in macOS. To install manually, download the [DMG](https://github.com/Leon83858/RAW_Importer/releases/latest/download/RAW.Importer_3.0.0_Mac.dmg), open it, then drag **RAW Importer** to **Applications**.
 
-The app is unsigned and not notarized, so macOS may block its first launch. If you trust the download, open **Applications**, Control-click **RAW Importer**, and choose **Open**. If it is still blocked, go to **System Settings > Privacy & Security** and choose **Open Anyway** for RAW Importer. You should not need to run `sudo xattr` commands.
+The app is unsigned and not notarized, so macOS may block its first launch. If you trust the download, first try opening **RAW Importer** from **Applications**, then check **System Settings > Privacy & Security** for **Open Anyway**. macOS only shows that option for a limited time after a blocked launch, and it may not be available in every case.
+
+If macOS still blocks the app and you trust the copy you downloaded, you can remove its quarantine attribute from this app bundle only:
+
+```sh
+sudo xattr -rd com.apple.quarantine "/Applications/RAW Importer.app"
+```
+
+This bypasses Gatekeeper's quarantine check for RAW Importer. Do not run it on apps you do not trust. Homebrew's `brew trust` command trusts the cask definition; it does not remove the app's quarantine attribute.
 
 ### Windows 10/11 (x64)
 
