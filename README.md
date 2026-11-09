@@ -16,7 +16,7 @@ brew trust --cask leon83858/raw-importer/raw-importer
 brew install --cask raw-importer
 ```
 
-The trust command approves only this cask. The app is currently unsigned and not notarized. If Gatekeeper blocks the first launch, open Finder, Control-click **RAW Importer**, then choose **Open**.
+The trust command trusts only this cask's Homebrew package definition; it does not bypass macOS Gatekeeper. The app is currently unsigned and not notarized, so macOS may block its first launch. If you trust the download, open Finder, Control-click **RAW Importer**, then choose **Open**. If macOS still blocks it, use **Open Anyway** in **System Settings > Privacy & Security**.
 
 ### Windows 10/11 (x64)
 
