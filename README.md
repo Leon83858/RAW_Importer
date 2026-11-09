@@ -8,7 +8,11 @@ A desktop app for copying camera RAW and image files into organised, date-based 
 
 ## Install
 
-### macOS (Apple Silicon)
+Choose the instructions for your operating system. All downloads are on the [latest release page](https://github.com/Leon83858/RAW_Importer/releases/latest).
+
+### macOS 11 or later (Apple Silicon)
+
+**Install with Homebrew**
 
 ```sh
 brew tap Leon83858/homebrew-raw-importer
@@ -16,15 +20,19 @@ brew trust --cask leon83858/raw-importer/raw-importer
 brew install --cask raw-importer
 ```
 
-The trust command trusts only this cask's Homebrew package definition; it does not bypass macOS Gatekeeper. The app is currently unsigned and not notarized, so macOS may block its first launch. If you trust the download, open Finder, Control-click **RAW Importer**, then choose **Open**. If macOS still blocks it, use **Open Anyway** in **System Settings > Privacy & Security**.
+`brew trust` approves the Homebrew cask definition; it does not approve the app in macOS. To install manually, download the [DMG](https://github.com/Leon83858/RAW_Importer/releases/latest/download/RAW.Importer_3.0.0_Mac.dmg), open it, then drag **RAW Importer** to **Applications**.
+
+The app is unsigned and not notarized, so macOS may block its first launch. If you trust the download, open **Applications**, Control-click **RAW Importer**, and choose **Open**. If it is still blocked, go to **System Settings > Privacy & Security** and choose **Open Anyway** for RAW Importer. You should not need to run `sudo xattr` commands.
 
 ### Windows 10/11 (x64)
 
-Download and run the [Windows installer](https://github.com/Leon83858/RAW_Importer/releases/latest/download/RAW.Importer_3.0.0_windows_x64-setup.exe). It installs for the current user without administrator access. If SmartScreen appears, choose **More info** and **Run anyway** only if you trust the download.
+1. Download and open the [Windows installer](https://github.com/Leon83858/RAW_Importer/releases/latest/download/RAW.Importer_3.0.0_windows_x64-setup.exe).
+2. Follow the installer prompts. It installs for your user account and does not require administrator access.
+3. If SmartScreen appears, select **More info**, then **Run anyway** only if you trust the download.
 
 ### Debian/Ubuntu (x86_64)
 
-Download the Debian package and its checksum, verify it, then install it with apt:
+Download the package and checksum, verify the download, then install it:
 
 ```sh
 curl -fLO https://github.com/Leon83858/RAW_Importer/releases/latest/download/raw-importer_3.0.0_amd64.deb
@@ -33,11 +41,11 @@ sha256sum -c raw-importer_3.0.0_amd64.deb.sha256
 sudo apt install ./raw-importer_3.0.0_amd64.deb
 ```
 
-This installs the downloaded package file; no apt repository is configured. The package is unsigned and distributed with a SHA-256 checksum.
+This installs the downloaded package and its dependencies; no apt repository is configured. The package is unsigned and is distributed with a SHA-256 checksum.
 
 ### Arch Linux (x86_64)
 
-Download the Arch package and checksum, verify it, then install it with pacman:
+Download the package and checksum, verify the download, then install it:
 
 ```sh
 curl -fLO https://github.com/Leon83858/RAW_Importer/releases/latest/download/raw-importer-3.0.0-1-x86_64.pkg.tar.zst
@@ -46,11 +54,19 @@ sha256sum -c raw-importer-3.0.0-1-x86_64.pkg.tar.zst.sha256
 sudo pacman -U ./raw-importer-3.0.0-1-x86_64.pkg.tar.zst
 ```
 
-This installs a downloaded local package; no pacman repository is configured. The package is unsigned and distributed with a SHA-256 checksum.
+This installs the downloaded local package; no pacman repository is configured. The package is unsigned and is distributed with a SHA-256 checksum.
 
-### Other Linux distributions
+### Other Linux distributions (x86_64)
 
-Download the x86_64 ZIP from [Releases](https://github.com/Leon83858/RAW_Importer/releases/latest), extract it, install WebKitGTK 4.1 and GTK 3 using your distribution's package manager, then run `./install.sh` from the extracted folder.
+1. Download and extract the [Linux ZIP](https://github.com/Leon83858/RAW_Importer/releases/latest/download/RAW-Importer_3.0.0_linux_x86_64.zip).
+2. Install WebKitGTK 4.1 and GTK 3 using your distribution's package manager. For Debian/Ubuntu, install `libwebkit2gtk-4.1-0` and `libgtk-3-0`.
+3. In a terminal, change to the extracted folder and run:
+
+   ```sh
+   ./install.sh
+   ```
+
+This installs the app for your user account without requiring `sudo`. To install for all users instead, run `sudo ./install.sh --system`.
 
 <!-- Screenshot placeholder: Main import screen. Replace this comment with a rendered screenshot when one is available. -->
 
