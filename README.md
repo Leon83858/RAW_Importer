@@ -20,7 +20,13 @@ brew trust --cask leon83858/raw-importer/raw-importer
 brew install --cask raw-importer
 ```
 
-`brew trust` approves the Homebrew cask definition; it does not approve the app in macOS. To install manually, download the [DMG](https://github.com/Leon83858/RAW_Importer/releases/latest/download/RAW.Importer_3.0.0_Mac.dmg), open it, then drag **RAW Importer** to **Applications**.
+The cask always points to the newest release: it is updated automatically shortly after each release. To update an installed copy, run:
+
+```sh
+brew update && brew upgrade --cask raw-importer
+```
+
+`brew trust` approves the Homebrew cask definition; it does not approve the app in macOS. To install manually, download `RAW.Importer_<version>_Mac.dmg` from the [latest release page](https://github.com/Leon83858/RAW_Importer/releases/latest), open it, then drag **RAW Importer** to **Applications**.
 
 The app is unsigned and not notarized, so macOS may block its first launch. If you trust the download, first try opening **RAW Importer** from **Applications**, then check **System Settings > Privacy & Security** for **Open Anyway**. macOS only shows that option for a limited time after a blocked launch, and it may not be available in every case.
 
@@ -34,39 +40,43 @@ This bypasses Gatekeeper's quarantine check for RAW Importer. Do not run it on a
 
 ### Windows 10/11 (x64)
 
-1. Download and open the [Windows installer](https://github.com/Leon83858/RAW_Importer/releases/latest/download/RAW.Importer_3.0.0_windows_x64-setup.exe).
+1. Download and open `RAW.Importer_<version>_windows_x64-setup.exe` from the [latest release page](https://github.com/Leon83858/RAW_Importer/releases/latest).
 2. Follow the installer prompts. It installs for your user account and does not require administrator access.
 3. If SmartScreen appears, select **More info**, then **Run anyway** only if you trust the download.
 
 ### Debian/Ubuntu (x86_64)
 
-Download the package and checksum, verify the download, then install it:
+Download the newest package and checksum, verify the download, then install it:
 
 ```sh
-curl -fLO https://github.com/Leon83858/RAW_Importer/releases/latest/download/raw-importer_3.0.0_amd64.deb
-curl -fLO https://github.com/Leon83858/RAW_Importer/releases/latest/download/raw-importer_3.0.0_amd64.deb.sha256
-sha256sum -c raw-importer_3.0.0_amd64.deb.sha256
-sudo apt install ./raw-importer_3.0.0_amd64.deb
+VER=$(curl -fsSL https://api.github.com/repos/Leon83858/RAW_Importer/releases/latest | sed -n 's/.*"tag_name": *"v\([^"]*\)".*/\1/p')
+BASE="https://github.com/Leon83858/RAW_Importer/releases/download/v$VER"
+curl -fLO "$BASE/raw-importer_${VER}_amd64.deb"
+curl -fLO "$BASE/raw-importer_${VER}_amd64.deb.sha256"
+sha256sum -c "raw-importer_${VER}_amd64.deb.sha256"
+sudo apt install "./raw-importer_${VER}_amd64.deb"
 ```
 
 This installs the downloaded package and its dependencies; no apt repository is configured. The package is unsigned and is distributed with a SHA-256 checksum.
 
 ### Arch Linux (x86_64)
 
-Download the package and checksum, verify the download, then install it:
+Download the newest package and checksum, verify the download, then install it:
 
 ```sh
-curl -fLO https://github.com/Leon83858/RAW_Importer/releases/latest/download/raw-importer-3.0.0-1-x86_64.pkg.tar.zst
-curl -fLO https://github.com/Leon83858/RAW_Importer/releases/latest/download/raw-importer-3.0.0-1-x86_64.pkg.tar.zst.sha256
-sha256sum -c raw-importer-3.0.0-1-x86_64.pkg.tar.zst.sha256
-sudo pacman -U ./raw-importer-3.0.0-1-x86_64.pkg.tar.zst
+VER=$(curl -fsSL https://api.github.com/repos/Leon83858/RAW_Importer/releases/latest | sed -n 's/.*"tag_name": *"v\([^"]*\)".*/\1/p')
+BASE="https://github.com/Leon83858/RAW_Importer/releases/download/v$VER"
+curl -fLO "$BASE/raw-importer-${VER}-1-x86_64.pkg.tar.zst"
+curl -fLO "$BASE/raw-importer-${VER}-1-x86_64.pkg.tar.zst.sha256"
+sha256sum -c "raw-importer-${VER}-1-x86_64.pkg.tar.zst.sha256"
+sudo pacman -U "./raw-importer-${VER}-1-x86_64.pkg.tar.zst"
 ```
 
 This installs the downloaded local package; no pacman repository is configured. The package is unsigned and is distributed with a SHA-256 checksum.
 
 ### Other Linux distributions (x86_64)
 
-1. Download and extract the [Linux ZIP](https://github.com/Leon83858/RAW_Importer/releases/latest/download/RAW-Importer_3.0.0_linux_x86_64.zip).
+1. Download and extract `RAW-Importer_<version>_linux_x86_64.zip` from the [latest release page](https://github.com/Leon83858/RAW_Importer/releases/latest).
 2. Install WebKitGTK 4.1 and GTK 3 using your distribution's package manager. For Debian/Ubuntu, install `libwebkit2gtk-4.1-0` and `libgtk-3-0`.
 3. In a terminal, change to the extracted folder and run:
 
