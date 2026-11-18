@@ -52,6 +52,8 @@ pub struct ScanResult {
     pub hidden_skipped: u64,
     /// Files seen that did not match the format filter.
     pub filtered_out: u64,
+    /// All folder entries looked at (files, folders, links).
+    pub entries_seen: u64,
 }
 
 #[derive(Debug, Clone, Copy, Default)]
@@ -69,7 +71,8 @@ fn is_hidden(name: &std::ffi::OsStr) -> bool {
     name.to_str().map(|n| n.starts_with('.')).unwrap_or(false)
 }
 
-/// Scans `root` recursively. `on_progress` is called every 256 entries.
+/// Scans `root` recursively. `on_progress` is called every 64 entries and
+/// once at the end; callers rate-limit it further if needed.
 pub fn scan(
     root: &Path,
     matcher: &FormatMatcher,
@@ -99,7 +102,7 @@ pub fn scan(
             return Err(CoreError::Cancelled);
         }
         seen += 1;
-        if seen.is_multiple_of(256) {
+        if seen.is_multiple_of(64) {
             on_progress(ScanProgress {
                 entries_seen: seen,
                 files_matched: result.files.len() as u64,
@@ -168,6 +171,7 @@ pub fn scan(
     }
 
     result.hidden_skipped += hidden_dirs.get();
+    result.entries_seen = seen;
     on_progress(ScanProgress {
         entries_seen: seen,
         files_matched: result.files.len() as u64,

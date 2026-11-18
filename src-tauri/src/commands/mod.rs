@@ -6,7 +6,9 @@ use std::path::{Path, PathBuf};
 use raw_importer_core::error::ErrorCode;
 use raw_importer_core::formats::{self, FormatDescriptor};
 use raw_importer_core::paths::{self, PathIssue, ValidatedPaths};
-use raw_importer_core::session::{ImportSession, ScanPreview, SessionError, SessionSnapshot};
+use raw_importer_core::session::{
+    ImportSession, ScanPreview, ScanStatus, SessionError, SessionSnapshot,
+};
 use raw_importer_core::settings::{Language, Settings, ThemeMode};
 use raw_importer_core::updates::UpdateStatus;
 use serde::Deserialize;
@@ -15,6 +17,8 @@ use tauri::{Emitter, Manager, State};
 
 /// Event carrying a [`SessionSnapshot`] while an import runs (≤ 10 Hz).
 pub const PROGRESS_EVENT: &str = "import-progress";
+/// Event carrying a [`ScanStatus`] while a scan runs (≤ 10 Hz).
+pub const SCAN_PROGRESS_EVENT: &str = "scan-progress";
 const LATEST_RELEASE_API: &str =
     "https://api.github.com/repos/Leon83858/RAW_Importer/releases/latest";
 const RELEASE_PAGE_PREFIX: &str = "https://github.com/Leon83858/RAW_Importer/releases/tag/";
@@ -142,9 +146,11 @@ fn join_error(e: tauri::Error) -> SessionError {
 }
 
 /// Scans the source and plans all destinations. Runs off the main thread;
-/// can be cancelled with `cancel_session`.
+/// can be cancelled with `cancel_session`. Progress arrives as
+/// `scan-progress` events.
 #[tauri::command]
 pub async fn scan(
+    app: tauri::AppHandle,
     session: State<'_, ImportSession>,
     source: String,
     destination: String,
@@ -152,7 +158,16 @@ pub async fn scan(
 ) -> Result<ScanPreview, SessionError> {
     let session = session.inner().clone();
     tauri::async_runtime::spawn_blocking(move || {
-        session.scan(Path::new(&source), Path::new(&destination), settings)
+        session.scan_with_progress(
+            Path::new(&source),
+            Path::new(&destination),
+            settings,
+            |status: ScanStatus| {
+                if let Err(e) = app.emit(SCAN_PROGRESS_EVENT, status) {
+                    eprintln!("could not emit scan progress: {e}");
+                }
+            },
+        )
     })
     .await
     .map_err(join_error)?

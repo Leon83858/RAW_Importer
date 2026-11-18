@@ -71,6 +71,54 @@ pub struct ScanPreview {
     pub destination_will_be_created: bool,
 }
 
+/// Which part of the scan is running. Listing walks the source folder (the
+/// total is unknown up front); reading dates resolves the capture date of
+/// every matched file (EXIF), so its total is known.
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize)]
+#[serde(rename_all = "snake_case")]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
+#[cfg_attr(feature = "typescript", ts(export))]
+pub enum ScanPhase {
+    Listing,
+    ReadingDates,
+}
+
+/// Live scan progress for the GUI (at most every [`NOTIFY_INTERVAL`], plus
+/// one report at the start of each phase and one at the end).
+#[derive(Debug, Clone, Serialize)]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
+#[cfg_attr(feature = "typescript", ts(export))]
+pub struct ScanStatus {
+    pub phase: ScanPhase,
+    /// Folder entries looked at so far (files, folders, links).
+    #[cfg_attr(feature = "typescript", ts(type = "number"))]
+    pub entries_seen: u64,
+    /// Files that match the selected formats.
+    #[cfg_attr(feature = "typescript", ts(type = "number"))]
+    pub files_found: u64,
+    #[cfg_attr(feature = "typescript", ts(type = "number"))]
+    pub dates_done: u64,
+    #[cfg_attr(feature = "typescript", ts(type = "number"))]
+    pub dates_total: u64,
+}
+
+/// Rate-limits scan reports: always passes the first report of a phase and
+/// forced reports, otherwise at most one per [`NOTIFY_INTERVAL`].
+struct ScanReporter<F: FnMut(ScanStatus)> {
+    emit: F,
+    last: Option<Instant>,
+}
+
+impl<F: FnMut(ScanStatus)> ScanReporter<F> {
+    fn report(&mut self, status: ScanStatus, force: bool) {
+        let due = self.last.is_none_or(|t| t.elapsed() >= NOTIFY_INTERVAL);
+        if force || due {
+            self.last = Some(Instant::now());
+            (self.emit)(status);
+        }
+    }
+}
+
 /// Live progress. Speeds and ETA are averages over the whole run so far
 /// (honest, no smoothing tricks); `None` until enough data exists.
 #[derive(Debug, Clone, Default, Serialize)]
@@ -265,6 +313,22 @@ impl ImportSession {
         destination: &Path,
         settings: Settings,
     ) -> Result<ScanPreview, SessionError> {
+        self.scan_with_progress(source, destination, settings, |_| {})
+    }
+
+    /// Like [`Self::scan`], but reports [`ScanStatus`] while it runs so the
+    /// GUI can show that a long scan is still making progress.
+    pub fn scan_with_progress(
+        &self,
+        source: &Path,
+        destination: &Path,
+        settings: Settings,
+        on_progress: impl FnMut(ScanStatus),
+    ) -> Result<ScanPreview, SessionError> {
+        let mut reporter = ScanReporter {
+            emit: on_progress,
+            last: None,
+        };
         // Validation happens before the state changes: invalid input is not
         // a failed scan.
         let validated = paths::validate(source, destination).map_err(|issues| SessionError {
@@ -294,12 +358,33 @@ impl ImportSession {
             inner.error = None;
         }
 
+        reporter.report(
+            ScanStatus {
+                phase: ScanPhase::Listing,
+                entries_seen: 0,
+                files_found: 0,
+                dates_done: 0,
+                dates_total: 0,
+            },
+            true,
+        );
         let scan = scanner::scan(
             &validated.source,
             &settings.formats.matcher(),
             ScanOptions::default(),
             &control,
-            |_| {},
+            |p| {
+                reporter.report(
+                    ScanStatus {
+                        phase: ScanPhase::Listing,
+                        entries_seen: p.entries_seen,
+                        files_found: p.files_matched,
+                        dates_done: 0,
+                        dates_total: 0,
+                    },
+                    false,
+                )
+            },
         );
         let scan = match scan {
             Ok(s) => s,
@@ -318,11 +403,27 @@ impl ImportSession {
             }
         };
 
+        let entries_seen = scan.entries_seen;
+        let dates_total = scan.files.len() as u64;
+        let status = |dates_done: u64| ScanStatus {
+            phase: ScanPhase::ReadingDates,
+            entries_seen,
+            files_found: dates_total,
+            dates_done,
+            dates_total,
+        };
+        reporter.report(status(0), true);
+
         let mut missing_date_count = 0;
-        let files: Vec<PreviewFile> = scan
-            .files
-            .iter()
-            .map(|file| {
+        let mut files: Vec<PreviewFile> = Vec::with_capacity(scan.files.len());
+        for (index, file) in scan.files.iter().enumerate() {
+            // Reading EXIF can take a while on slow cards: stay cancellable.
+            if control.is_cancelled() {
+                let mut inner = self.lock();
+                let _ = Self::step(&mut inner, Command::CancelReached);
+                return Err(SessionError::new(ErrorCode::Cancelled, "scan cancelled"));
+            }
+            files.push({
                 let date = resolve_date(
                     &file.path,
                     FileTimes {
@@ -348,8 +449,10 @@ impl ImportSession {
                     date_fallback: date.as_ref().map(|d| d.fell_back).unwrap_or(true),
                     date_source: date.map(|d| d.source),
                 }
-            })
-            .collect();
+            });
+            reporter.report(status(index as u64 + 1), false);
+        }
+        reporter.report(status(dates_total), true);
 
         let preview = ScanPreview {
             files,

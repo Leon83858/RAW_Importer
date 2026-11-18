@@ -9,6 +9,7 @@ import type { ThemeMode } from "../types/generated/ThemeMode";
 import type { UpdateStatus } from "../types/generated/UpdateStatus";
 import type { PathIssue } from "../types/generated/PathIssue";
 import type { ScanPreview } from "../types/generated/ScanPreview";
+import type { ScanStatus } from "../types/generated/ScanStatus";
 import type { SessionError } from "../types/generated/SessionError";
 import type { SessionSnapshot } from "../types/generated/SessionSnapshot";
 import type { Settings } from "../types/generated/Settings";
@@ -22,6 +23,7 @@ export type SettingsResponse = {
 };
 
 export const PROGRESS_EVENT = "import-progress";
+export const SCAN_PROGRESS_EVENT = "scan-progress";
 export const MENU_EVENT = "menu-action";
 
 /** Native menu actions that are handled by the frontend window. */
@@ -47,6 +49,8 @@ export const ipc = {
     listen<MenuAction>(MENU_EVENT, (event) => handler(event.payload)),
   onProgress: (handler: (snapshot: SessionSnapshot) => void): Promise<UnlistenFn> =>
     listen<SessionSnapshot>(PROGRESS_EVENT, (event) => handler(event.payload)),
+  onScanProgress: (handler: (status: ScanStatus) => void): Promise<UnlistenFn> =>
+    listen<ScanStatus>(SCAN_PROGRESS_EVENT, (event) => handler(event.payload)),
 };
 
 export function isSessionError(value: unknown): value is SessionError {

@@ -1,5 +1,7 @@
 import type { Messages } from "./types";
 
+const n = (value: number) => value.toLocaleString("nl-NL");
+
 export const nl: Messages = {
   appTitle: "Foto’s importeren",
   stepsAria: "Stappen",
@@ -83,6 +85,10 @@ export const nl: Messages = {
   createPreview: "Voorbeeld maken",
   scanning: "Scannen…",
   cancelScan: "Scan annuleren",
+  scanListing: (found, seen) =>
+    `Bronmap doorzoeken… ${n(found)} ${found === 1 ? "passend bestand" : "passende bestanden"} gevonden (${n(seen)} items gecontroleerd)`,
+  scanReadingDates: (done, total) => `Opnamedatums lezen… ${n(done)} / ${n(total)} bestanden`,
+  scanProgressAria: "Voortgang van de scan",
   back: "Terug",
   startImport: "Import starten",
   pause: "Pauzeren",

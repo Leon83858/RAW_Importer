@@ -1,5 +1,7 @@
 import type { Messages } from "./types";
 
+const n = (value: number) => value.toLocaleString("en-GB");
+
 export const en: Messages = {
   appTitle: "Import photos",
   stepsAria: "Steps",
@@ -83,6 +85,10 @@ export const en: Messages = {
   createPreview: "Create preview",
   scanning: "Scanning…",
   cancelScan: "Cancel scan",
+  scanListing: (found, seen) =>
+    `Searching the source folder… ${n(found)} matching ${found === 1 ? "file" : "files"} found (${n(seen)} items checked)`,
+  scanReadingDates: (done, total) => `Reading capture dates… ${n(done)} / ${n(total)} files`,
+  scanProgressAria: "Scan progress",
   back: "Back",
   startImport: "Start import",
   pause: "Pause",

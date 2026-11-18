@@ -97,6 +97,11 @@ export interface Messages {
   createPreview: string;
   scanning: string;
   cancelScan: string;
+  /** Scan, first phase: walking the source folder (total unknown). */
+  scanListing: (found: number, seen: number) => string;
+  /** Scan, second phase: reading capture dates (total known). */
+  scanReadingDates: (done: number, total: number) => string;
+  scanProgressAria: string;
   back: string;
   startImport: string;
   pause: string;

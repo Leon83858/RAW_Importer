@@ -6,7 +6,7 @@ members = ["crates/core", "src-tauri"]
 default-members = ["crates/core"]
 
 [workspace.package]
-version = "3.0.0-dev"
+version = "3.0.1"
 edition = "2021"
 license = "GPL-3.0-only"
 repository = "https://github.com/Leon83858/RAW_Importer"

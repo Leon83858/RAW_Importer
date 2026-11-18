@@ -1,5 +1,7 @@
 import type { Messages } from "./types";
 
+const n = (value: number) => value.toLocaleString("de-DE");
+
 export const de: Messages = {
   appTitle: "Fotos importieren",
   stepsAria: "Schritte",
@@ -83,6 +85,10 @@ export const de: Messages = {
   createPreview: "Vorschau erstellen",
   scanning: "Scanne …",
   cancelScan: "Scan abbrechen",
+  scanListing: (found, seen) =>
+    `Durchsuche den Quellordner … ${n(found)} passende ${found === 1 ? "Datei" : "Dateien"} gefunden (${n(seen)} Einträge geprüft)`,
+  scanReadingDates: (done, total) => `Lese Aufnahmedaten … ${n(done)} / ${n(total)} Dateien`,
+  scanProgressAria: "Scan-Fortschritt",
   back: "Zurück",
   startImport: "Import starten",
   pause: "Pausieren",

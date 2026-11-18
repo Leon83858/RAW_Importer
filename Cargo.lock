@@ -2969,7 +2969,7 @@ dependencies = [
 
 [[package]]
 name = "raw-importer-app"
-version = "3.0.0-dev"
+version = "3.0.1"
 dependencies = [
  "raw-importer-core",
  "reqwest",
@@ -2982,7 +2982,7 @@ dependencies = [
 
 [[package]]
 name = "raw-importer-core"
-version = "3.0.0-dev"
+version = "3.0.1"
 dependencies = [
  "chrono",
  "filetime",

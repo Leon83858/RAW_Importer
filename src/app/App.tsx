@@ -5,6 +5,7 @@ import type { FormatDescriptor } from "../types/generated/FormatDescriptor";
 import type { Language } from "../types/generated/Language";
 import type { PathIssue } from "../types/generated/PathIssue";
 import type { ScanPreview } from "../types/generated/ScanPreview";
+import type { ScanStatus } from "../types/generated/ScanStatus";
 import type { SessionSnapshot } from "../types/generated/SessionSnapshot";
 import type { Settings } from "../types/generated/Settings";
 import type { ThemeMode } from "../types/generated/ThemeMode";
@@ -15,6 +16,7 @@ import { I18nProvider } from "../i18n/context";
 import { formatBytes } from "../lib/format";
 import { OptionsPanel, Row, Section } from "../features/import/OptionsPanel";
 import { ProgressView } from "../features/import/ProgressView";
+import { ScanProgress } from "../features/import/ScanProgress";
 
 type Step = "setup" | "preview" | "import";
 type Folder = "source" | "destination";
@@ -47,6 +49,7 @@ function App() {
   const [step, setStep] = useState<Step>("setup");
   const [busy, setBusy] = useState(false);
   const [preview, setPreview] = useState<ScanPreview | null>(null);
+  const [scanStatus, setScanStatus] = useState<ScanStatus | null>(null);
   const [snapshot, setSnapshot] = useState<SessionSnapshot | null>(null);
   const [problem, setProblem] = useState<Problem | null>(null);
   const [migrated, setMigrated] = useState(false);
@@ -124,6 +127,7 @@ function App() {
   useEffect(() => {
     const unlisteners: Array<() => void> = [];
     void ipc.onProgress(accept).then((fn) => unlisteners.push(fn));
+    void ipc.onScanProgress(setScanStatus).then((fn) => unlisteners.push(fn));
     void ipc
       .onMenu((action) => {
         if (action.kind === "open_settings") setSettingsOpen(true);
@@ -177,6 +181,7 @@ function App() {
 
   async function scan() {
     if (!settings) return;
+    setScanStatus(null);
     setBusy(true);
     setProblem(null);
     const next: Settings = { ...settings, paths: { source: folders.source, destination: folders.destination } };
@@ -189,6 +194,7 @@ function App() {
       setProblem(describe(e, t));
     } finally {
       setBusy(false);
+      setScanStatus(null);
       accept(await ipc.sessionState());
     }
   }
@@ -315,6 +321,7 @@ function App() {
                   {busy ? t.scanning : t.createPreview}
                 </button>
               </div>
+              {busy && <ScanProgress status={scanStatus} />}
             </>
           )}
 

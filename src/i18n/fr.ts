@@ -1,5 +1,7 @@
 import type { Messages } from "./types";
 
+const n = (value: number) => value.toLocaleString("fr-FR");
+
 // French typography: narrow no-break space (U+202F) before ? ! : ;
 const q = " ";
 
@@ -86,6 +88,10 @@ export const fr: Messages = {
   createPreview: "Créer l’aperçu",
   scanning: "Analyse…",
   cancelScan: "Annuler l’analyse",
+  scanListing: (found, seen) =>
+    `Recherche dans le dossier source… ${n(found)} ${found === 1 ? "fichier correspondant trouvé" : "fichiers correspondants trouvés"} (${n(seen)} éléments vérifiés)`,
+  scanReadingDates: (done, total) => `Lecture des dates de prise de vue… ${n(done)} / ${n(total)} fichiers`,
+  scanProgressAria: "Progression de l’analyse",
   back: "Retour",
   startImport: "Lancer l’importation",
   pause: "Pause",
